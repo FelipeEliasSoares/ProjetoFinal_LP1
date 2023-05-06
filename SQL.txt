@@ -1,0 +1,62 @@
+CREATE TABLE marceneiro(
+	
+ id_mar serial,
+
+ nome_mar character varying(50),
+	
+ cpf_mar character varying(15),
+	
+ tel_mar character varying(13),
+	
+ CONSTRAINT marceneiro_pkey PRIMARY KEY (id_mar)
+
+)
+
+
+CREATE TABLE cliente(
+	id_cli serial,
+	nome_cli character varying(50), 
+	logradouro_cli character varying(50), 
+	numero_cli integer,
+	bairro_cli character varying(30), 
+	cidade_cli character varying(30), 
+	estado_cli character varying(2), 
+	cep_cli character varying(9),
+	cpf_cli character varying(14) unique,
+	rg_cli character varying(15),
+	CONSTRAINT cliente_pkey PRIMARY KEY (id_cli)
+)
+
+
+
+CREATE TABLE material(
+	id_material serial,
+	nome_material character varying(50), 
+	desc_material character varying(50),
+	cod_bar_material character varying(13),
+   	p_custo_material double precision,
+	id_for integer,
+	CONSTRAINT produto_pkey PRIMARY KEY (id_material),
+	CONSTRAINT fornecedor_fk FOREIGN KEY (id_for) REFERENCES fornecedor (id_for)  
+)
+
+
+CREATE TABLE projeto(
+    id_proj serial,
+    nome_proj character varying(50),
+    descricao_proj character varying(100),
+    id_mar integer UNIQUE,
+    CONSTRAINT projeto_pkey PRIMARY KEY (id_proj),
+    CONSTRAINT marceneiro_fk FOREIGN KEY (id_mar) REFERENCES marceneiro (id_mar)  
+);
+
+
+CREATE TABLE material_projeto (
+	id_mp serial,
+	id_proj integer,
+	id_material integer,
+	qtd_mp integer,
+	CONSTRAINT material_projeto_pkey PRIMARY KEY (id_mp),
+	CONSTRAINT projeto_fk FOREIGN KEY (id_proj) REFERENCES projeto (id_proj),
+	CONSTRAINT material_fk FOREIGN KEY (id_material) REFERENCES material (id_material)
+);
